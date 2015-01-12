@@ -1,0 +1,101 @@
+
+/**
+ * Write a description of class Mage here.
+ * 
+ * @author (your name) 
+ * @version (a version number or a date)
+ */
+
+import java.io.*;
+import java.lang.*;
+class Mage{
+ public static void main()throws IOException{
+  BufferedReader reader=
+  new BufferedReader(new InputStreamReader(System.in));
+    int v, x, x2, df, t;
+    t = 0; //Treshold
+    char n;
+    
+    
+    System.out.println("Give dice Number & Type:");
+    v = Integer.parseInt(reader.readLine());
+    System.out.print(v+"d");
+    x = Integer.parseInt(reader.readLine());
+    x2 = x - 1;
+    System.out.print("Set Difficulty (Enter 0 to view dice result): ");
+    df = Integer.parseInt(reader.readLine());
+    if (df == x2) {
+    System.out.print("Set Threshold: ");
+    t = Integer.parseInt(reader.readLine());
+    }
+    if (df==0) rollshow(v , x2);
+        else{
+            if (t>=2*v||df>x2)System.out.println("Invalid Parameters");
+            else check(roll(v , x2, df), t, v , x2, df);
+        }
+    }
+   
+    private static char check(int s, int t, int v, int x2, int df)throws IOException{
+    BufferedReader reader=
+    new BufferedReader(new InputStreamReader(System.in));
+    String n;
+    if(s<0) System.out.println("Botch. Sorry pal, you just blew it.");
+    else {
+        s = s - t;
+        if(s>=5) System.out.println("Successes Scored: " + s + ". Extraordinary Success");
+        if(s>=3&&s<5) System.out.println("Successes Scored: " + s + ". Complete Success");
+        if(s<3 && s>0) System.out.println("Successes Scored: " + s + ". Marginal Success");
+        if(s<=0) {
+            s=0;
+            System.out.print("Successes Scored: " + s + ". Failure. Enter 1 to retry: ");
+            int k;
+            try {k = Integer.parseInt(reader.readLine());}
+                catch (NumberFormatException e) {k=0;}
+            switch(k){
+            case 1: {if (df<x2) check(roll(v , x2, df++), t, v , x2, df++);
+                     else check(roll(v , x2, df), t++, v , x2, df);
+                    if (t>=2*v) {System.out.println("You can try no more.");return 'x';}
+                    break;}
+            case 0: return 'x';
+
+            }
+            }
+    }
+    System.out.print("Enter 1 to restart the dice program, or anything else to exit: ");
+    int c;
+    try {c = Integer.parseInt(reader.readLine());}
+        catch (NumberFormatException e){c=0;}
+    if (c==1) {main();return 'x';}
+    else return 'x';
+    }
+
+    private static int roll(int v, int x2, int df)throws IOException{
+    BufferedReader reader=
+    new BufferedReader(new InputStreamReader(System.in));
+    int d , s;
+    s = 0; //number of successes scored
+    for (int i=1;i<=v;i++){
+    d = (int)Math.floor(Math.random() * x2 + 1);
+    //System.out.println(d);
+    if (d>= df) s++;
+    if (d == 1) s--;
+    if (d== (x2+1)) s++;
+    }
+    return s;
+    }
+    
+    private static void rollshow(int v, int x2)throws IOException{
+    BufferedReader reader=
+    new BufferedReader(new InputStreamReader(System.in));
+    int d;
+    for (int i=1;i<=v;i++){
+    d = (int)Math.floor(Math.random() * x2 + 1);
+    System.out.println(d);
+    }
+    System.out.print("Enter 1 to restart the dice program, or anything else to exit: ");
+    int c;
+    try {c = Integer.parseInt(reader.readLine());}
+        catch (NumberFormatException e){c=0;}
+    if (c==1) main();
+    }
+}

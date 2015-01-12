@@ -1,0 +1,11 @@
+#BlueJ class context
+comment0.target=class\ Mage
+comment1.params=
+comment1.target=void\ main()
+comment2.params=s\ t\ v\ x2\ df
+comment2.target=char\ check(int,int,int,int,int)
+comment3.params=v\ x2\ df
+comment3.target=int\ roll(int,int,int)
+comment4.params=v\ x2
+comment4.target=void\ rollshow(int,int)
+numComments=5
